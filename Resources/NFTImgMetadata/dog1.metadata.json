@@ -1,0 +1,19 @@
+{
+    "name":"dog1",
+    "description":"cute dog",
+    "image":"ipfs.io/ipfs/QmXySXkWJ2DL9YAjXBQj4cqX5ZyHS2WonAsUfcGjyiAqCU",
+    "attributes": [
+        {
+            "trait_type": "species",
+            "value": "dog"
+        },
+        {
+            "trait_type": "color",
+            "value": "white"
+        },
+        {
+            "trait_type": "location",
+            "value": "outside"
+        }
+    ]
+}

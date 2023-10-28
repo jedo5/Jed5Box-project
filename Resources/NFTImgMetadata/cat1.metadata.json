@@ -1,0 +1,19 @@
+{
+    "name":"cat1",
+    "description":"cute cat",
+    "image":"ipfs.io/ipfs/QmTDEEmLihR4bfMJvdEGcfnX4Rw4VB392N8Q3pcpvA1WZF",
+    "attributes": [
+        {
+            "trait_type": "species",
+            "value": "cat"
+        },
+        {
+            "trait_type": "color",
+            "value": "sand"
+        },
+        {
+            "trait_type": "location",
+            "value": "outside"
+        }
+    ]
+}

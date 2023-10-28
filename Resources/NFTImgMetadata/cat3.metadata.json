@@ -1,0 +1,19 @@
+{
+    "name":"cat3",
+    "description":"cute cat",
+    "image":"ipfs.io/ipfs/QmNbX4qkayhRngi8PtRmue8SFEXoWws4QAmMGtQmC1JdTY",
+    "attributes": [
+        {
+            "trait_type": "species",
+            "value": "cat"
+        },
+        {
+            "trait_type": "color",
+            "value": "brown-black"
+        },
+        {
+            "trait_type": "location",
+            "value": "inside"
+        }
+    ]
+}
