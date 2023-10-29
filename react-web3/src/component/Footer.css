@@ -1,0 +1,7 @@
+.footer {
+    height: 1px;
+    position : relative;
+    transform : translateY(-100%);
+    text-align: center;
+    background-color: #dde0ea;
+}
