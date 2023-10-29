@@ -1,0 +1,42 @@
+.mint-container{
+    display: flex;
+    width: 90%;
+    height: 80vh;
+    border: 1px solid #000;
+    margin: 30px;
+    padding: 20px;
+    flex-direction: column;
+}
+.mintingForm{
+    display: flex;
+    margin-top: 20px;
+
+}
+.nft-metadata-form{
+    display: flex;
+    width: 700px;
+    height: auto;
+    border: 1px solid #000;
+}
+.nft-image{
+    display: flex;
+    width:350px;
+    height: 350px;
+    border: 1px solid #000;
+}
+.nft-metadata{
+    display: flex;
+    width: 50%;
+    height: auto;
+    border: 1px solid #000;
+}
+
+.mintingForm Button{
+    display: flex;
+    margin-top: 125px;
+    margin-left: 30px;
+    width: 100px;
+    height: 100px;
+    justify-content: center;
+    align-items: center;
+}

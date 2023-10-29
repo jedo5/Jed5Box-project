@@ -1,0 +1,17 @@
+.myPage-container{
+    display: flex;
+    margin: 20px;
+    height: 70vh;
+    border: 1px solid #000;
+    flex-direction: column;
+    padding: 20px;
+}
+
+.addressInfo{
+    display: flex;
+    margin-bottom: 20px;
+}
+
+.nftInfo{
+
+}

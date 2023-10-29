@@ -1,0 +1,52 @@
+.walletConnectForm {
+    display: flex;
+    width: 100%;
+    height: 80vh;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+.connect3rdParty{
+    display: flex;
+    width: 100%;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin-bottom: 50px;
+}
+
+.connectFromPrivKey {
+    display: flex;
+    width: 100%;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin-bottom: 50px;
+}
+.connectFromPrivKey input{
+    display: flex;
+    width: 70%;
+    flex-direction: column;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.connectFromMnemonic{
+    display: flex;
+    width: 100%;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin-bottom: 50px;
+}
+.connectFromMnemonic input{
+    display: flex;
+    width: 70%;
+    flex-direction: column;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}

@@ -1,7 +1,22 @@
+import './MyPage.css'
 
 const MyPage = () =>{
     return (
-        <span>mypage</span>
+        <div className='myPage-container'>
+            <div className='addressInfo'>
+                <span>My Address Info</span>
+            </div>
+            <div className='nftInfo'>
+                <span>My NFT</span>
+                {/* 
+                    map <Theme />
+                    <hr/>
+                    map <Button><NFT /></Button>
+                        -> <div className='NFTform'>
+                           <div className='NFTtransfer'>
+                */}
+            </div>
+        </div>
     )
 }
 

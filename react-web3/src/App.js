@@ -7,6 +7,7 @@ import Main from './pages/Main';
 import Mint from './pages/Mint';
 import NFTs from './pages/NFTs';
 import MyPage from './pages/MyPage';
+import ConnectWallet from './pages/ConnectWallet';
 
 import Header from './component/Header';
 import Footer from './component/Footer';
@@ -23,6 +24,7 @@ function App() {
           <Route path="/nfts" element={<NFTs />} />
           <Route path="/mint" element={<Mint />} />
           <Route path="/mypage" element={<MyPage />} />
+          <Route path="/connectWallet" element={<ConnectWallet />}/>
         </Routes>
       </div>
       <Footer />

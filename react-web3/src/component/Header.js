@@ -18,16 +18,17 @@ const Header = () =>{
                 <Nav.Link href="/nfts">NFTs</Nav.Link>
                 <Nav.Link href="/mint">Mint</Nav.Link>
                 <Nav.Link href="/mypage">My page</Nav.Link>
+                <Nav.Link href="/connectWallet">Log in</Nav.Link>
               </Nav>
               <Form className="d-flex">
-            <Form.Control
-              type="search"
-              placeholder="Search"
-              className="me-2"
-              aria-label="Search"
-            />
-            <Button variant="outline-success">Search</Button>
-          </Form>
+                <Form.Control
+                  type="search"
+                  placeholder="Search"
+                  className="me-2"
+                  aria-label="Search"
+                />
+                <Button variant="outline-success">Search</Button>
+              </Form>
             </Navbar.Collapse>
           </Container>
         </Navbar>
