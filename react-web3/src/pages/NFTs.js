@@ -1,5 +1,6 @@
 import './NFTs.css';
 import Theme from "../component/Theme";
+import NFT from '../component/NFT';
 
 const NFTs = () =>{
     return (
@@ -13,6 +14,7 @@ const NFTs = () =>{
                 {/* NFT 전부 불러와서 Theme 목록 가져오고 map((nft)=>) 
                 <NFT name={nft}/>
                 */}
+                <NFT></NFT>
             </div>
 
         </div>

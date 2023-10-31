@@ -29,6 +29,9 @@
     width: 50%;
     height: auto;
     border: 1px solid #000;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
 .mintingForm Button{

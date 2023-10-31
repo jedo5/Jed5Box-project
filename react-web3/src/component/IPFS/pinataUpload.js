@@ -1,10 +1,9 @@
-require('dotenv').config();
 import { useState } from 'react';
 import axios from 'axios';
-const JWT = process.env.PINATA_JWT;
+const JWT = process.env.REACT_APP_PINATA_JWT;
 
 
-const FileUpload = ()=>{
+const FileUpload = ({mintButton})=>{
     const [selectedFile, setSelectedFile] = useState();
     
     const changeHandler = (event)=>{
@@ -39,11 +38,11 @@ const FileUpload = ()=>{
     };
 
     return (
-        <>
+        <div sytle={`"flex-direction": "column"`}>
         <label class="form-label">Choose File</label>
         <input type="file"  onChange={changeHandler}/>
         <button onClick={handleSubmission}>Submit</button>
-        </>
+        </div>
     )
 }
 

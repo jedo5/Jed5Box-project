@@ -1,0 +1,116 @@
+[
+    {
+        "name":"cat1",
+        "description":"cute cat",
+        "image":"ipfs://QmTDEEmLihR4bfMJvdEGcfnX4Rw4VB392N8Q3pcpvA1WZF",
+        "attributes": [
+            {
+                "trait_type": "species",
+                "value": "cat"
+            },
+            {
+                "trait_type": "color",
+                "value": "sand"
+            },
+            {
+                "trait_type": "location",
+                "value": "outside"
+            }
+        ]
+    },
+    {
+        "name":"cat2",
+        "description":"cute cat",
+        "image":"ipfs.io/ipfs/QmQ8BCervMjukTgoZJSQXyvdx3x3WWALJWqFKM3vssiDGL",
+        "attributes": [
+            {
+                "trait_type": "species",
+                "value": "cat"
+            },
+            {
+                "trait_type": "color",
+                "value": "brown-black"
+            },
+            {
+                "trait_type": "location",
+                "value": "inside"
+            }
+        ]
+    },
+    {
+        "name":"cat3",
+        "description":"cute cat",
+        "image":"ipfs.io/ipfs/QmNbX4qkayhRngi8PtRmue8SFEXoWws4QAmMGtQmC1JdTY",
+        "attributes": [
+            {
+                "trait_type": "species",
+                "value": "cat"
+            },
+            {
+                "trait_type": "color",
+                "value": "brown-black"
+            },
+            {
+                "trait_type": "location",
+                "value": "inside"
+            }
+        ]
+    },
+    {
+        "name":"dog1",
+        "description":"cute dog",
+        "image":"ipfs.io/ipfs/QmXySXkWJ2DL9YAjXBQj4cqX5ZyHS2WonAsUfcGjyiAqCU",
+        "attributes": [
+            {
+                "trait_type": "species",
+                "value": "dog"
+            },
+            {
+                "trait_type": "color",
+                "value": "white"
+            },
+            {
+                "trait_type": "location",
+                "value": "outside"
+            }
+        ]
+    },
+    {
+        "name":"dog2",
+        "description":"cute dog",
+        "image":"ipfs.io/ipfs/QmRfuPoCQkorcpuLT1Nk6oAijeMA9bb9DFJzPcWMYimqCd",
+        "attributes": [
+            {
+                "trait_type": "species",
+                "value": "dog"
+            },
+            {
+                "trait_type": "color",
+                "value": "white"
+            },
+            {
+                "trait_type": "location",
+                "value": "outside"
+            }
+        ]
+    },
+    {
+        "name":"dog3",
+        "description":"cute dog",
+        "image":"ipfs.io/ipfs/QmP6RsdA7wPu5xVXNQ6yc3yxCDQHxQyosb6ssr8aiFDg4a",
+        "attributes": [
+            {
+                "trait_type": "species",
+                "value": "dog"
+            },
+            {
+                "trait_type": "color",
+                "value": "black"
+            },
+            {
+                "trait_type": "location",
+                "value": "outside"
+            }
+        ]
+    }
+]

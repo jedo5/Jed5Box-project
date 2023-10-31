@@ -12,8 +12,8 @@ const MyPage = () =>{
                     map <Theme />
                     <hr/>
                     map <Button><NFT /></Button>
-                        -> <div className='NFTform'>
-                           <div className='NFTtransfer'>
+                        click-> <div className='NFTform'>
+                                <div className='NFTtransfer'>
                 */}
             </div>
         </div>

@@ -1,7 +1,7 @@
 {
     "name":"cat1",
     "description":"cute cat",
-    "image":"ipfs.io/ipfs/QmTDEEmLihR4bfMJvdEGcfnX4Rw4VB392N8Q3pcpvA1WZF",
+    "image":"https://ipfs.io/ipfs/QmTDEEmLihR4bfMJvdEGcfnX4Rw4VB392N8Q3pcpvA1WZF",
     "attributes": [
         {
             "trait_type": "species",
