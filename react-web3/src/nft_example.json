@@ -13,7 +13,7 @@
                 "value": "sand"
             },
             {
-                "trait_type": "location",
+                "trait_type": "background",
                 "value": "outside"
             }
         ]
@@ -32,7 +32,7 @@
                 "value": "brown-black"
             },
             {
-                "trait_type": "location",
+                "trait_type": "background",
                 "value": "inside"
             }
         ]
@@ -51,7 +51,7 @@
                 "value": "brown-black"
             },
             {
-                "trait_type": "location",
+                "trait_type": "background",
                 "value": "inside"
             }
         ]
@@ -70,7 +70,7 @@
                 "value": "white"
             },
             {
-                "trait_type": "location",
+                "trait_type": "background",
                 "value": "outside"
             }
         ]
@@ -89,7 +89,7 @@
                 "value": "white"
             },
             {
-                "trait_type": "location",
+                "trait_type": "background",
                 "value": "outside"
             }
         ]
@@ -108,7 +108,7 @@
                 "value": "black"
             },
             {
-                "trait_type": "location",
+                "trait_type": "background",
                 "value": "outside"
             }
         ]
