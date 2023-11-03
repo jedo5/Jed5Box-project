@@ -6,6 +6,7 @@ import "@openzeppelin/contracts/utils/Counters.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
+import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Burnable.sol";
 
 contract JedoBox is ERC721URIStorage, Ownable, ERC721Enumerable {
     using Counters for Counters.Counter;
@@ -14,6 +15,10 @@ contract JedoBox is ERC721URIStorage, Ownable, ERC721Enumerable {
     constructor(string memory name, string memory symbol) 
     ERC721(name, symbol) Ownable(msg.sender) {}
 
+    modifier onlyMyNFT(uint256 tokenId){
+        require(msg.sender == ownerOf(tokenId));
+        _;
+    }
 
     function _increaseBalance(address account, uint128 amount) internal virtual override(ERC721, ERC721Enumerable) {
         super._increaseBalance(account, amount);
@@ -31,7 +36,7 @@ contract JedoBox is ERC721URIStorage, Ownable, ERC721Enumerable {
         return super.tokenURI(tokenId);
     }
     
-    function mintNFT(address recipient, string memory tokenUri) public onlyOwner returns (uint256) {
+    function mintNFT(address recipient, string memory tokenUri) public returns (uint256) {
         _tokenIds.increment();
 
         uint256 newItemId = _tokenIds.current();
@@ -40,4 +45,8 @@ contract JedoBox is ERC721URIStorage, Ownable, ERC721Enumerable {
 
         return newItemId;
     }
+    
+    function burn(uint256 tokenId) public virtual onlyMyNFT(tokenId){
+        _update(address(0), tokenId, _msgSender());
+    }    
 }
