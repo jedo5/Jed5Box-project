@@ -29,7 +29,13 @@ const ConnectWallet = ({setWeb3}) =>{
         if (chainId === '0x13881') {setSelectedNetwork('Polygon-Mumbai');}
         if (chainId ===  '0x3e9') {setSelectedNetwork('Klaytn-Baobab');}
         if (chainId === '0x539') {setSelectedNetwork('Localhost');}
+        const requestAccounts = await window.ethereum.request({
+            "method": "eth_requestAccounts",
+            "params": []
+        })
         const address = await web.eth.getAccounts();
+
+        
         const hexBalance = await window.ethereum.request({
             "method": 'eth_getBalance',
             "params": [

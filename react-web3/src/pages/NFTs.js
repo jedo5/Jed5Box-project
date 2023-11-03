@@ -3,6 +3,7 @@ import Theme from "../component/Theme";
 import NFT from '../component/NFT';
 import JedoBoxABI from '../component/blockchain/contractABIJedoBox.json';
 import { useEffect, useState } from 'react';
+import axios from 'axios';
 
 
 const NFTs = ({web3}) =>{
@@ -16,15 +17,21 @@ const NFTs = ({web3}) =>{
         const name = await contract.methods.name().call();
         const symbol = await contract.methods.symbol().call();
         const totalSupply = await contract.methods.totalSupply().call();
-
+        
         let arr = [];
-        for (let i=1;i<=totalSupply;i++){
-            arr.push(i);
+        for (let i=0;i<totalSupply;i++){
+            const index = await contract.methods.tokenByIndex(i).call();
+            arr.push(index);
         }
+        
         let lists=[]
-        for (let tokenId of arr){
-            let tokenURI = await contract.methods.tokenURI(tokenId).call();
-            lists.push({name,symbol,tokenId, tokenURI})
+        for (let tokenIdN of arr){
+            let tokenURI = await contract.methods.tokenURI(tokenIdN).call();
+            const tokenId = Number(tokenIdN);
+            console.log(tokenId)
+            const nftJson = await axios.get(tokenURI);
+            const nftInfo = nftJson.data;
+            lists.push({name,symbol,tokenId, nftInfo});
         }
         setNFTLists(lists);
     }
@@ -37,7 +44,7 @@ const NFTs = ({web3}) =>{
             <div className="theme-container">
                 {/* NFT 전부 불러와서 Theme 목록 가져오고 map((theme)=>) 
                 <Theme name={theme}/>
-                */}theme1 theme2 theme3
+                */}[ All ]   [ Cat ]   [ Dog ]
 
             </div>
             <div className="nfts-container">
@@ -45,7 +52,7 @@ const NFTs = ({web3}) =>{
                 <NFT name={nft}/>
                 */}
                 {NFTLists.map((nft)=>{
-                    return <NFT key={nft.tokenId} nft={nft}/>
+                    return <figure><NFT key={nft.tokenId} nft={nft}/></figure>
                 })}
             </div>
 

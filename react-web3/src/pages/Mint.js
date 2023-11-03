@@ -2,14 +2,13 @@ import './Mint.css';
 import Button from 'react-bootstrap/esm/Button';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-import Toast from 'react-bootstrap/Toast';
+import JedoBoxABI from '../component/blockchain/contractABIJedoBox.json';
+import Toasts from '../component/Toasts';
 
-const pinataAPI = process.env.REACT_APP_PINATA_API_KEY;
-const pinataAPIsecret = process.env.REACT_APP_PINATA_API_SECRET;
 const pinataJWT = process.env.REACT_APP_PINATA_JWT;
 
 
-const Mint = () =>{
+const Mint = ({web3}) =>{
     const [selectedFile, setSelectedFile] = useState();
     const [name, setname] = useState('');
     const [description, setDescription] = useState('');
@@ -17,6 +16,11 @@ const Mint = () =>{
     const [color, setColor] = useState('');
     const [background, setBackground] = useState('');
     const [file, setFile] = useState();
+    const [minting, setMinting] = useState(false);
+    const [minted, setMinted] = useState(false);
+    const [nftHash, setNFTHash] = useState('');
+    const [contractHash, setContractHash] = useState('');
+    const [isButtonDisabled, setIsButtonDisabled] = useState(false);
 
     const handleFileUpload = (event) =>{
         const file=event.target.files[0];
@@ -51,6 +55,9 @@ const Mint = () =>{
         }
     }
     const handleMint = async() =>{
+        setMinting(true);
+        setIsButtonDisabled(true);
+        //ipfs 업로드
         let formData = new FormData();
         formData.append('file', file)
 
@@ -62,6 +69,8 @@ const Mint = () =>{
         let options = JSON.stringify({cidVersion: 0,});
         formData.append('pinataOptions', options);
         let imageIpfsHash;
+
+        //이미지 업로드
         try{
             const res = await axios.post(
                 "https://api.pinata.cloud/pinning/pinFileToIPFS",
@@ -81,7 +90,7 @@ const Mint = () =>{
         const data = {
             "name": name,
             "description": description,
-            "image": `ipfs://${imageIpfsHash}`,
+            "image": `https://ipfs.io/ipfs/${imageIpfsHash}`,
             "attributes": [
                 {
                     "trait_type": "species",
@@ -97,9 +106,9 @@ const Mint = () =>{
                 }
             ]
         }
+        //메타데이터 업로드
         metadata = JSON.stringify(data);
-        console.log(metadata);
-        
+        let nftURI;
         try{
             const res = await axios.post(
                 "https://api.pinata.cloud/pinning/pinJSONToIPFS",
@@ -111,17 +120,46 @@ const Mint = () =>{
                         Authorization: `Bearer ${pinataJWT}`
                     }
                 });
-                console.log(res.data);
-                setSelectedFile();
-                setname('');
-                setDescription('');
-                setSpecies('');
-                setColor('');
-                setBackground('');
-                alert(res.data.IpfsHash);
+                nftURI = `https://ipfs.io/ipfs/${res.data.IpfsHash}`;
+                setNFTHash(nftURI);
+
         }catch(error){
             console.log(error);
         }
+
+        //contract에 배포
+        const myAddress = (await web3.eth.getAccounts())[0];
+        const tokenURI = nftURI;
+        const contract = await new web3.eth.Contract(
+            JedoBoxABI, process.env.REACT_APP_JEDOBOX_ADDRESS, {from:myAddress}
+        );
+        const estimateGasAmount = await contract.methods.mintNFT(myAddress,tokenURI).
+            estimateGas({from: myAddress, gas:500000}).catch((err)=>{console.log(err);});
+        const txData = await contract.methods.mintNFT(myAddress,tokenURI).encodeABI();
+
+        try{
+            const sendTX = await web3.eth.sendTransaction({
+                from: myAddress,
+                to: process.env.REACT_APP_JEDOBOX_ADDRESS,
+                gas: estimateGasAmount,
+                gasPrice: await web3.eth.getGasPrice(),
+                data: txData
+            });
+            setContractHash(sendTX.blockHash);
+            console.log(sendTX);
+            setSelectedFile();
+            setname('');
+            setDescription('');
+            setSpecies('');
+            setColor('');
+            setBackground('');
+            setMinting(false);
+            setMinted(true);
+            setIsButtonDisabled(false);
+        }catch(err){
+            console.error(err);
+        }
+
     }
 
     return (
@@ -129,14 +167,14 @@ const Mint = () =>{
             <span> Minting NFT</span>
             <div className="mintingForm">
                 <div className="nft-metadata-form">
-                    <div className="nft-image">
+                    <div className="nft-image-form">
                         {!selectedFile && (
                             <div>
                             <label className="form-label">Choose File</label>
                             <input type="file" onChange={handleFileUpload}/>
                             </div>
                         )}
-                        <img src={selectedFile} style={{width: '100%', height: '100%'}}/>
+                        <img src={selectedFile} className='nft-img'/>
                     </div>
                     <div className='nft-metadata'>
                         <label>Name</label>
@@ -151,8 +189,19 @@ const Mint = () =>{
                         <input type="text" value={background} onChange={(e)=>handleMetadata(e,5)} style={{width: '90%'}}></input><br/>
                     </div>
                 </div>
-                <Button onClick={handleMint} variant="outline-primary">Mint</Button>
+                <Button onClick={handleMint} className="mintButton" variant="outline-primary" disabled={isButtonDisabled}>
+                    {minting? 
+                        <div className="loader loader-1"></div>
+                        : <span>Mint</span>
+                    }
+                </Button>
             </div>
+            {minted?
+                    <>
+                        <Toasts title={'IPFS upload'} data={'URI: '+nftHash} />
+                        <Toasts title={'Deploy NFT'} data={'TX HASH: '+contractHash}/>
+                    </>:<></>
+            }
         </div>
     )
 }

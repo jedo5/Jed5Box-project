@@ -1,0 +1,29 @@
+
+.imageForm{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 250px;
+    margin: 5px;
+    position: relative;
+}
+
+.nftImage{
+    width: 450px;
+    min-width: 250px;
+    min-height: 300px;
+
+    position: relative;
+    z-index: 2;
+}
+
+.nftMetadata{
+    position: absolute;
+    word-wrap: break-word;
+    left: 10%;
+    top: 3%;
+    width: 260px;
+    font-size: large;
+    font-weight:bold;
+    z-index: 1;
+}
