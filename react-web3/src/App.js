@@ -28,9 +28,10 @@ function App() {
           const web = new Web3(window.ethereum);
           setWeb3(web);
       }catch (err){
-        alert('install metamask')
         console.log(err);
       }
+    }else{
+      alert('install metamask')
     }
   },[])
   console.log('App.js -',web3);

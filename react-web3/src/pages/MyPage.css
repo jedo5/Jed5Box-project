@@ -118,3 +118,10 @@ to {
     justify-content: center;
     align-items: center;
 }
+
+.sendingform{
+    display: flex;
+    flex-direction: column;
+    margin: 20px;
+    align-items: center;
+}

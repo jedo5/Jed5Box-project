@@ -27,7 +27,6 @@ const ConnectWallet = ({setWeb3}) =>{
             window.ethereum.autoRefreshOnNetworkChange = false;
             window.ethereum.removeAllListeners('chainChanged');
             window.ethereum.removeAllListeners('accountsChanged');
-            window.ethereum = null;
           }
     }
 
@@ -97,9 +96,11 @@ const ConnectWallet = ({setWeb3}) =>{
 
     const connectFromMnemonic = (mnemonic) =>{
         metamskOFF();
+        const tWeb = new Web3(new Web3.providers.HttpProvider(networkURL));
+        const hdNode = ethers.Wallet.fromPhrase(mnemonic, tWeb.currentProvider);
         const web = new Web3(new Web3.providers.HttpProvider(networkURL));
-        const accounts = ethers.Wallet.fromPhrase(mnemonic, web.currentProvider);
-        setCurrentAddress(accounts.address);
+        const accounts = web.eth.accounts.wallet.add(hdNode.privateKey);
+        setCurrentAddress(accounts[0].address);
         setCurrentWeb3(web);   
         transferWeb3(web);
         setconnected(true);

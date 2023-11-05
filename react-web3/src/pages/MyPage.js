@@ -3,7 +3,6 @@ import JedoBoxABI from '../component/blockchain/contractABIJedoBox.json';
 import axios from 'axios';
 import Caver from 'caver-js';
 import { useEffect, useState } from 'react';
-import NFT from '../component/NFT';
 import Button from 'react-bootstrap/esm/Button';
 
 
@@ -16,6 +15,9 @@ const MyPage = ({web3}) =>{
     const [imageInfo, setImageInfo] = useState('');
     const [sending, setSending] = useState(false);
     const [isButtonDisabled, setIsButtonDisabled] = useState(false);
+    const [toInput, setToInput] = useState('');
+    const [clickedNFT, setClickedNFT] = useState();
+
 
     let myErc721list;
     const options = {
@@ -62,6 +64,7 @@ const MyPage = ({web3}) =>{
         const nftLists = await getMyAccount();
         for (let nft of nftLists.slice(0,2)) {
               let contractInfo={};
+              console.log(nft);
               contractInfo.contractAddress = nft.contractAddress;
               contractInfo.tokenUri = nft.extras.tokenUri;
               const pinatalinklength = ('https://gateway.pinata.cloud/').length;
@@ -74,7 +77,7 @@ const MyPage = ({web3}) =>{
               const nftContractInfo = await axios.get(url, options).then((res)=>{
                 return res.data;
               })
-
+              const CA = nft.contractAddress;
               const name = nftContractInfo.name;
               const symbol = nftContractInfo.symbol
               const tokenId = web3.utils.hexToNumber(nft.extras.tokenId);
@@ -88,7 +91,7 @@ const MyPage = ({web3}) =>{
                 "image": image,
                 "attributes":attribute
             }
-              arr.push({name,symbol,tokenId,nftInfo});
+              arr.push({CA,name,symbol,tokenId,nftInfo});
               console.log('arr',arr)
         }
         setMyNFTsInfo(arr);
@@ -98,10 +101,14 @@ const MyPage = ({web3}) =>{
         for (let targetNFT of myNFTsInfo){
             if (targetNFT.nftInfo.image===clickedImg){
                 targetInfo=targetNFT;
+                setClickedNFT(targetNFT);
                 break;
             }
         }
         setImageInfo(targetInfo);
+    }
+    const getToInput = (e)=>{
+        setToInput(e.target.value)
     }
 
     const getImageInfoReturn = (nft) =>{
@@ -115,6 +122,9 @@ const MyPage = ({web3}) =>{
                         <img src={nft.nftInfo.image} className='nft-img'/>
                     </div>
                     <div className='nft-metadata'>
+                        <label style={{marginBottom: "5px", fontWeight: "bold"}}>
+                            {`${nft.name}(${nft.symbol}) id:${nft.tokenId}`}
+                        </label>
                         {nftkeys.map((baseInfo)=> {return (
                         <>
                             {(baseInfo !== 'attributes')? //name
@@ -139,17 +149,61 @@ const MyPage = ({web3}) =>{
                         )}
                     </div>
                 </div>
-                <Button onClick={handleSending} className="transferButton" variant="outline-primary" disabled={isButtonDisabled}>
+                <div className="sendingform">
+                <Button onClick={sendToken} className="transferButton" variant="outline-primary" disabled={isButtonDisabled}>
                     {sending? 
                         <div className="loader loader-1"></div>
-                        : <span>Send</span>
+                        :<div className="">
+                            <span>Send</span>
+                        </div>
                     }
                 </Button>
+                {sending?
+                <><span>Processing...</span></>
+                :<span style={{marginTop:"10px"}}>To: <input type="text" value={toInput} onChange={getToInput}/></span>
+                }
+                </div>
             </div>
         )
     }
-    const handleSending = ()=>{
-        isButtonDisabled(true);
+    const sendToken = async()=>{
+        console.log('sendtoken');
+        setIsButtonDisabled(true);
+        setSending(true);
+        console.log(clickedNFT);
+
+        const address = (await web3.eth.getAccounts())[0];
+        const tokenContract = await new web3.eth.Contract(
+            JedoBoxABI, process.env.REACT_APP_JEDOBOX_ADDRESS, {from: address}
+        );
+        const estimateGasAmount = await tokenContract.methods.safeTransferFrom(address, toInput, clickedNFT.tokenId)
+        .estimateGas({from: address, gas:5000000}).catch(function(error){
+            console.log(error);
+        });
+        const txData = await tokenContract.methods.safeTransferFrom(address, toInput, clickedNFT.tokenId)
+        .encodeABI();
+
+        await web3.eth.sendTransaction({
+            from: address,
+            to: process.env.REACT_APP_JEDOBOX_ADDRESS,
+            gas: estimateGasAmount,
+            gasPrice: await web3.eth.getGasPrice(),
+            data: txData
+        })
+        .on('receipt', (receipt)=>{
+            if (receipt.status){
+                alert("tx success");
+                setToInput("");
+            }else{
+                console.error("failed");
+            }
+        })  
+        .on("error", (error)=>{
+            console.error(error);
+        });
+
+        setSending(false);
+        setIsButtonDisabled(false);
     }
 
     useEffect(()=>{

@@ -5,6 +5,7 @@ import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import { useEffect, useState } from 'react';
 import Web3 from 'web3';
+import { Link } from 'react-router-dom';
 
 
 
@@ -50,10 +51,10 @@ const Header = ({web3}) =>{
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
             <Navbar.Collapse id="basic-navbar-nav">
               <Nav style={{alignItems: "center"}} className="me-auto">
-                <Nav.Link href="/nfts">NFTs</Nav.Link>
-                <Nav.Link href="/mint">Mint</Nav.Link>
-                <Nav.Link href="/mypage" style={{width: "110px"}}>My page</Nav.Link>
-                <Nav.Link href="/connectWallet" style={{width: "100px"}}>Log in</Nav.Link>
+                <Nav.Link><Link to="/nfts">NFTs</Link></Nav.Link>
+                <Nav.Link><Link to="/mint">Mint</Link></Nav.Link>
+                <Nav.Link style={{width: "110px"}}><Link to="/mypage">My page</Link></Nav.Link>
+                <Nav.Link style={{width: "100px"}}><Link to="/connectwallet">Log in</Link></Nav.Link>
                 <Nav.Link style={{marginLeft:"150px"}}>{`account: ${myInfo[0]}`}</Nav.Link>
                 <Nav.Link style={{marginLeft:"10px"}}>{`balance: ${myInfo[1]}`}</Nav.Link>
                 <Nav.Link>{`network: ${myInfo[2]}`}</Nav.Link>
