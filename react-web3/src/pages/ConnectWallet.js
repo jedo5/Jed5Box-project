@@ -10,7 +10,7 @@ import {ethers} from 'ethers';
 
 
 const ConnectWallet = ({setWeb3}) =>{
-    const [currentWeb3, setCurrentWeb3] = useState(new Web3(window.ethereum));
+    const [currentWeb3, setCurrentWeb3] = useState();
     const [fromPriv,setFromPriv] = useState('');
     const [fromMnemonic, setFromMnemonic] = useState('');
     const [connected, setconnected]= useState(false);
@@ -19,6 +19,17 @@ const ConnectWallet = ({setWeb3}) =>{
     const [currentAddress, setCurrentAddress]= useState('');
     const [balance, setBalance] = useState('');
 
+    const transferWeb3 = (web3)=>{
+        setWeb3(web3);
+    }
+    const metamskOFF = ()=>{
+        if (window.ethereum) {
+            window.ethereum.autoRefreshOnNetworkChange = false;
+            window.ethereum.removeAllListeners('chainChanged');
+            window.ethereum.removeAllListeners('accountsChanged');
+            window.ethereum = null;
+          }
+    }
 
     const connectMetamask = async() =>{
         const web = new Web3(window.ethereum);
@@ -46,7 +57,7 @@ const ConnectWallet = ({setWeb3}) =>{
         setBalance(strBalance);
         setCurrentAddress(address[0]);
         setCurrentWeb3(web);
-        setWeb3(web)
+        transferWeb3(web)
         setconnected(true);
     }
     const networkSwitch = (event) =>{
@@ -73,25 +84,27 @@ const ConnectWallet = ({setWeb3}) =>{
     }
 
     const connectFromPriv = async(priv) =>{
+        metamskOFF();
         const web = new Web3(new Web3.providers.HttpProvider(networkURL));
-        const accounts = web.eth.accounts.privateKeyToAccount('0x'+priv);
-        setCurrentAddress(accounts.address);
+        const accounts = web.eth.accounts.wallet.add('0x'+priv);
+        console.log('connect', accounts[0])
+        web.eth.getChainId().then(console.log);
+        setCurrentAddress(accounts[0].address);
         setCurrentWeb3(web);   
-        setWeb3(web);
+        transferWeb3(web);
         setconnected(true);
     }
 
     const connectFromMnemonic = (mnemonic) =>{
+        metamskOFF();
         const web = new Web3(new Web3.providers.HttpProvider(networkURL));
         const accounts = ethers.Wallet.fromPhrase(mnemonic, web.currentProvider);
         setCurrentAddress(accounts.address);
         setCurrentWeb3(web);   
-        setWeb3(web);
+        transferWeb3(web);
         setconnected(true);
     }
-    useEffect(()=>{
-        showBalance()
-    }, [balance, currentWeb3, currentAddress, selectedNetwork])
+
 
     const showBalance = async() =>{
         if(currentAddress==='') return;
@@ -101,12 +114,26 @@ const ConnectWallet = ({setWeb3}) =>{
 
     const logOut = ()=>{
         if (connected){
-            setWeb3(new Web3());
+            transferWeb3();
+            setCurrentWeb3();
             setFromPriv('');
             setFromMnemonic('');
             setconnected(false);
         }
     }
+
+    useEffect(()=>{
+        if(typeof currentWeb3!=='undefined'){
+            const showNetwork = async()=>{
+                const cNetwork =  await currentWeb3.eth.getChainId().then((id)=>{return id});
+                console.log('fromConnectWallet: '+cNetwork )
+            }
+            showNetwork();
+            showBalance()
+    }
+        
+    }, [balance, currentWeb3, currentAddress, selectedNetwork])
+
     return (
     <div className="pageWrapper">{!connected ?
         <div className="walletConnectForm">

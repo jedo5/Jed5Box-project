@@ -16,34 +16,28 @@ import { useEffect, useState } from 'react';
 import Web3 from 'web3';
 
 function App() {
-  const [web3, setWeb3] = useState(new Web3(window.ethereum));
-  // const [currentNetwork, setCurrentNetwork] = useState();
-  // const [currentAdress, setCurrentdress] = useState();
-  
-  // const getCurrentInfo = async() =>{
-  //   const networkId = await web3.eth.getChainId()
-  //   const accounts = await web3.eth.getAccounts();
-  //   return {networkId: networkId, address: accounts[0]};
-  // }
+  const [web3, setWeb3] = useState();
 
   const setWeb3Props = (web3) =>{
     setWeb3(web3);
   }
+
   useEffect(()=>{
     if (typeof window.ethereum !== 'undefined'){
       try{
           const web = new Web3(window.ethereum);
           setWeb3(web);
       }catch (err){
+        alert('install metamask')
         console.log(err);
       }
     }
   },[])
-
+  console.log('App.js -',web3);
 
   return (
     <BrowserRouter>
-      <Header />
+      <Header web3={web3}/>
       <div className='content'>
         <Routes>
           <Route path="/" element={<Main />} />

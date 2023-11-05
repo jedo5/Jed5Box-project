@@ -25,9 +25,9 @@ const NFT = ({nft}) =>{
             TokenId : {nft.tokenId}<br/><br/>
             Name: {nft.nftInfo.name}<br/>
             Description: {nft.nftInfo.description}<br/>
-            - Species : {nft.nftInfo.attributes[0].value}<br/>
-            - Color : {nft.nftInfo.attributes[1].value}<br/>
-            - Background : {nft.nftInfo.attributes[2].value}<br/>
+            {nft.nftInfo.attributes.map((attr)=>{
+              return <> - {attr.trait_type}: {attr.value}<br/></>
+            })}
         </div>  
     </div>
     )

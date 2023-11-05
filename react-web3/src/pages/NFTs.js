@@ -36,8 +36,10 @@ const NFTs = ({web3}) =>{
         setNFTLists(lists);
     }
     useEffect(()=>{
-        GetAllNFT();
-    },[])
+        if (web3){
+            GetAllNFT();
+        }
+    },[web3])
 
     return (
         <div className="container">
