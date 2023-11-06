@@ -128,8 +128,12 @@ const Mint = ({web3}) =>{
         }
 
         //contract에 배포
-        const myAddress = (await web3.eth.getAccounts())[0];
+        const accounts = await web3.eth.accounts.wallet;
+        console.log('---',accounts[0].address);
+
+        const myAddress = accounts[0].address;
         const tokenURI = nftURI;
+        console.log(myAddress, tokenURI)
         const contract = await new web3.eth.Contract(
             JedoBoxABI, process.env.REACT_APP_JEDOBOX_ADDRESS, {from:myAddress}
         );
@@ -145,7 +149,7 @@ const Mint = ({web3}) =>{
                 gasPrice: await web3.eth.getGasPrice(),
                 data: txData
             });
-            setContractHash(sendTX.blockHash);
+            setContractHash(sendTX.transactionHash);
             console.log(sendTX);
             setSelectedFile();
             setname('');

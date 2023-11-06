@@ -62,7 +62,7 @@ const MyPage = ({web3}) =>{
     const getNFTsAll = async()=>{
         let arr=[];
         const nftLists = await getMyAccount();
-        for (let nft of nftLists.slice(0,2)) {
+        for (let nft of nftLists) {
               let contractInfo={};
               console.log(nft);
               contractInfo.contractAddress = nft.contractAddress;
@@ -107,9 +107,7 @@ const MyPage = ({web3}) =>{
         }
         setImageInfo(targetInfo);
     }
-    const getToInput = (e)=>{
-        setToInput(e.target.value)
-    }
+
 
     const getImageInfoReturn = (nft) =>{
         console.log('getimagereturn',nft)
@@ -150,7 +148,7 @@ const MyPage = ({web3}) =>{
                     </div>
                 </div>
                 <div className="sendingform">
-                <Button onClick={sendToken} className="transferButton" variant="outline-primary" disabled={isButtonDisabled}>
+                <Button onClick={()=>sendToken()} className="transferButton" variant="outline-primary" disabled={isButtonDisabled}>
                     {sending? 
                         <div className="loader loader-1"></div>
                         :<div className="">
@@ -160,22 +158,23 @@ const MyPage = ({web3}) =>{
                 </Button>
                 {sending?
                 <><span>Processing...</span></>
-                :<span style={{marginTop:"10px"}}>To: <input type="text" value={toInput} onChange={getToInput}/></span>
+                :<span style={{marginTop:"10px"}}>To: <input type="text" value={toInput} onChange={(e)=>setToInput(e.target.value)}/></span>
                 }
                 </div>
             </div>
         )
     }
     const sendToken = async()=>{
-        console.log('sendtoken');
         setIsButtonDisabled(true);
         setSending(true);
         console.log(clickedNFT);
 
-        const address = (await web3.eth.getAccounts())[0];
+        const address = myEOAinfo[0];
+        console.log(address);
         const tokenContract = await new web3.eth.Contract(
             JedoBoxABI, process.env.REACT_APP_JEDOBOX_ADDRESS, {from: address}
         );
+        console.log('clciked',address,toInput,clickedNFT.tokenId);
         const estimateGasAmount = await tokenContract.methods.safeTransferFrom(address, toInput, clickedNFT.tokenId)
         .estimateGas({from: address, gas:5000000}).catch(function(error){
             console.log(error);
